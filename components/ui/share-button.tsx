@@ -1,10 +1,13 @@
-'use client';
-
-import { useState } from 'react';
-import { Share2, Copy, Facebook, Twitter, Mail, Link } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { toast } from 'sonner';
+"use client";
+import { useState, useEffect } from "react";
+import { Share2, Copy, Facebook, Twitter, Mail, Link } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from "@/components/ui/popover";
+import { toast } from "sonner";
 
 interface ShareButtonProps {
   title: string;
@@ -14,43 +17,62 @@ interface ShareButtonProps {
 
 export function ShareButton({ title, url, description }: ShareButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const shareUrl = url || window.location.href;
+  const [isNativeShareSupported, setIsNativeShareSupported] = useState(false);
+  const shareUrl =
+    url || (typeof window !== "undefined" ? window.location.href : "");
+
+  useEffect(() => {
+    // Vérifier le support du partage natif côté client
+    setIsNativeShareSupported(
+      typeof navigator !== "undefined" &&
+        "share" in navigator &&
+        typeof navigator.share === "function"
+    );
+  }, []);
 
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
-      toast.success('Lien copié !');
+      toast.success("Lien copié !");
       setIsOpen(false);
     } catch (err) {
-      toast.error('Erreur lors de la copie');
+      toast.error("Erreur lors de la copie");
     }
   };
 
   const shareOnFacebook = () => {
-    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
-    window.open(facebookUrl, '_blank', 'width=600,height=400');
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+      shareUrl
+    )}`;
+    window.open(facebookUrl, "_blank", "width=600,height=400");
     setIsOpen(false);
   };
 
   const shareOnTwitter = () => {
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(shareUrl)}`;
-    window.open(twitterUrl, '_blank', 'width=600,height=400');
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+      title
+    )}&url=${encodeURIComponent(shareUrl)}`;
+    window.open(twitterUrl, "_blank", "width=600,height=400");
     setIsOpen(false);
   };
 
   const shareByEmail = () => {
-    const emailUrl = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(description || '')}%0A%0A${encodeURIComponent(shareUrl)}`;
+    const emailUrl = `mailto:?subject=${encodeURIComponent(
+      title
+    )}&body=${encodeURIComponent(description || "")}%0A%0A${encodeURIComponent(
+      shareUrl
+    )}`;
     window.location.href = emailUrl;
     setIsOpen(false);
   };
 
   const nativeShare = async () => {
-    if (navigator.share) {
+    if (isNativeShareSupported && navigator.share) {
       try {
         await navigator.share({
           title,
           text: description,
-          url: shareUrl,
+          url: shareUrl
         });
         setIsOpen(false);
       } catch (err) {
@@ -70,8 +92,8 @@ export function ShareButton({ title, url, description }: ShareButtonProps) {
       <PopoverContent className="w-64" align="end">
         <div className="space-y-2">
           <h4 className="font-semibold text-sm mb-3">Partager cet article</h4>
-          
-          {navigator.share && (
+
+          {isNativeShareSupported && (
             <Button
               variant="ghost"
               size="sm"
@@ -82,7 +104,7 @@ export function ShareButton({ title, url, description }: ShareButtonProps) {
               Partager...
             </Button>
           )}
-          
+
           <Button
             variant="ghost"
             size="sm"
@@ -92,7 +114,7 @@ export function ShareButton({ title, url, description }: ShareButtonProps) {
             <Copy className="w-4 h-4 mr-2" />
             Copier le lien
           </Button>
-          
+
           <Button
             variant="ghost"
             size="sm"
@@ -102,7 +124,7 @@ export function ShareButton({ title, url, description }: ShareButtonProps) {
             <Facebook className="w-4 h-4 mr-2" />
             Facebook
           </Button>
-          
+
           <Button
             variant="ghost"
             size="sm"
@@ -112,7 +134,7 @@ export function ShareButton({ title, url, description }: ShareButtonProps) {
             <Twitter className="w-4 h-4 mr-2" />
             Twitter
           </Button>
-          
+
           <Button
             variant="ghost"
             size="sm"
