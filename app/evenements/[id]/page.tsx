@@ -1,22 +1,21 @@
-import { notFound } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  Calendar,
-  MapPin,
-  Clock,
-  Users,
-  Share2,
-  Bookmark,
-  Phone,
-  Mail,
-  ExternalLink
-} from "lucide-react";
 import Layout from "@/components/layout/Layout";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import {
+  Bookmark,
+  Calendar,
+  ExternalLink,
+  Mail,
+  MapPin,
+  Phone,
+  Share2,
+  Users
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
 // Mock data - Dans un vrai projet, ceci viendrait d'une base de données
 const events = {
@@ -60,6 +59,7 @@ const events = {
     image:
       "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1200",
     isFree: true,
+    price: undefined, // Ajouté pour la cohérence du type
     isPublic: true,
     tags: ["conseil municipal", "politique", "budget", "urbanisme"]
   },
@@ -94,7 +94,8 @@ const events = {
     organizer: "Association Musicale",
     organizerContact: {
       phone: "01 23 45 67 85",
-      email: "musique@association.fr"
+      email: "musique@association.fr",
+      website: undefined
     },
     capacity: 200,
     attending: 87,
@@ -138,13 +139,15 @@ const events = {
     organizer: "Association des Commerçants",
     organizerContact: {
       phone: "01 23 45 67 88",
-      email: "commercants@ville.fr"
+      email: "commercants@ville.fr",
+      website: undefined
     },
     capacity: null,
     attending: 156,
     image:
       "https://images.pexels.com/photos/1458627/pexels-photo-1458627.jpeg?auto=compress&cs=tinysrgb&w=1200",
     isFree: true,
+    price: undefined, // Ajouté pour la cohérence du type
     isPublic: true,
     tags: ["marché", "fleurs", "jardinage", "producteurs locaux"]
   }
@@ -301,7 +304,7 @@ export default function EventPage({ params }: EventPageProps) {
                       </div>
                       <div>
                         <p className="font-medium text-gray-900">
-                          {event.isFree ? "Gratuit" : `${event.price}€`}
+                          {event.isFree ? "Gratuit" : `${event.price || 0}€`}
                         </p>
                         <p className="text-sm text-gray-600">
                           {event.isPublic
@@ -438,7 +441,7 @@ export default function EventPage({ params }: EventPageProps) {
                     <div>
                       <span className="font-medium text-gray-900">Tarif :</span>
                       <p className="text-gray-600">
-                        {event.isFree ? "Gratuit" : `${event.price}€`}
+                        {event.isFree ? "Gratuit" : `${event.price || 0}€`}
                       </p>
                     </div>
                     {event.capacity && (
@@ -504,7 +507,7 @@ export default function EventPage({ params }: EventPageProps) {
                     Une question sur cet événement ?
                   </p>
                   <Button size="sm" className="w-full">
-                    Contacter l'organisateur
+                    Contacter l&apos;organisateur
                   </Button>
                 </CardContent>
               </Card>
