@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const FlashNews = () => {
   const [currentNews, setCurrentNews] = useState(0);
 
   const flashNews = [
-    "🔴 URGENT: Conseil municipal extraordinaire prévu demain à 18h en salle des fêtes",
-    "⚽ SPORT: L'équipe locale remporte le championnat régional 3-1",
-    "🎭 CULTURE: Festival des arts de rue ce weekend, entrée gratuite",
-    "🚧 TRAVAUX: Fermeture temporaire de la rue principale du 15 au 20 février",
-    "🌱 ENVIRONNEMENT: Nouvelle collecte de déchets verts tous les mercredis",
+    "URGENT: Conseil municipal extraordinaire prévu demain à 18h en salle des fêtes",
+    "SPORT: L'équipe locale remporte le championnat régional 3-1",
+    "CULTURE: Festival des arts de rue ce weekend, entrée gratuite",
+    "TRAVAUX: Fermeture temporaire de la rue principale du 15 au 20 février",
+    "ENVIRONNEMENT: Nouvelle collecte de déchets verts tous les mercredis"
   ];
 
   useEffect(() => {
@@ -28,7 +28,9 @@ const FlashNews = () => {
         <div className="flex items-center">
           <div className="flex items-center space-x-2 mr-4 flex-shrink-0">
             <AlertCircle className="w-4 h-4 animate-pulse" />
-            <span className="font-semibold text-sm uppercase tracking-wide">Flash Info</span>
+            <span className="font-semibold text-sm uppercase tracking-wide">
+              Flash Info
+            </span>
           </div>
           <div className="flex-grow overflow-hidden">
             <div className="flash-news-ticker whitespace-nowrap">

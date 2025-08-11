@@ -1,4 +1,3 @@
-import { AccessibilityToolbar } from "@/components/ui/accessibility-toolbar";
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
@@ -82,7 +81,6 @@ export default function RootLayout({
       <body className={montserrat.className}>
         {children}
         <Toaster />
-        <AccessibilityToolbar />
       </body>
     </html>
   );
