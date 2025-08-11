@@ -1,140 +1,162 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Calendar, MapPin, Clock, Phone, Pill, Camera, ArrowRight } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { WeatherWidget } from '@/components/ui/weather-widget';
-import { LiveChat } from '@/components/ui/live-chat';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { WeatherWidget } from "@/components/ui/weather-widget";
+import {
+  ArrowRight,
+  Calendar,
+  Camera,
+  Clock,
+  MapPin,
+  Phone,
+  Pill
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const Sidebar = () => {
-  const [selectedPoll, setSelectedPoll] = useState<string>('');
-  const [formattedDates, setFormattedDates] = useState<{[key: string]: string}>({});
+  const [selectedPoll, setSelectedPoll] = useState<string>("");
+  const [formattedDates, setFormattedDates] = useState<{
+    [key: string]: string;
+  }>({});
 
   const upcomingEvents = [
     {
       id: 1,
-      title: 'Conseil Municipal',
-      date: '2024-02-20',
-      time: '18:00',
-      location: 'Mairie',
-      category: 'Politique'
+      title: "Conseil Municipal",
+      date: "2024-02-20",
+      time: "18:00",
+      location: "Mairie",
+      category: "Politique"
     },
     {
       id: 2,
-      title: 'Concert de Printemps',
-      date: '2024-02-22',
-      time: '20:30',
-      location: 'Salle des Fêtes',
-      category: 'Culture'
+      title: "Concert de Printemps",
+      date: "2024-02-22",
+      time: "20:30",
+      location: "Salle des Fêtes",
+      category: "Culture"
     },
     {
       id: 3,
-      title: 'Marché aux Fleurs',
-      date: '2024-02-25',
-      time: '09:00',
-      location: 'Place Centrale',
-      category: 'Commerce'
+      title: "Marché aux Fleurs",
+      date: "2024-02-25",
+      time: "09:00",
+      location: "Place Centrale",
+      category: "Commerce"
     }
   ];
 
   const emergencyPharmacy = {
-    name: 'Pharmacie Central',
-    address: '15 Rue de la République',
-    phone: '01 23 45 67 89',
-    hours: '24h/24'
+    name: "Pharmacie Central",
+    address: "15 Rue de la République",
+    phone: "01 23 45 67 89",
+    hours: "24h/24"
   };
 
   const poll = {
-    question: 'Quel projet prioritaire pour notre commune ?',
+    question: "Quel projet prioritaire pour notre commune ?",
     options: [
-      { id: 'transport', label: 'Améliorer les transports', votes: 45 },
-      { id: 'espaces-verts', label: 'Plus d\'espaces verts', votes: 67 },
-      { id: 'commerce', label: 'Dynamiser le commerce local', votes: 38 },
-      { id: 'culture', label: 'Développer la culture', votes: 29 }
+      { id: "transport", label: "Améliorer les transports", votes: 45 },
+      { id: "espaces-verts", label: "Plus d'espaces verts", votes: 67 },
+      { id: "commerce", label: "Dynamiser le commerce local", votes: 38 },
+      { id: "culture", label: "Développer la culture", votes: 29 }
     ]
   };
 
   const categoryNews = [
     {
       id: 101,
-      title: 'Marché local: hausse de 15% de la fréquentation',
-      category: 'Économie',
-      image: 'https://images.pexels.com/photos/1005638/pexels-photo-1005638.jpeg?auto=compress&cs=tinysrgb&w=300',
-      publishedAt: '2024-02-15',
-      href: '/articles/101'
+      title: "Marché local: hausse de 15% de la fréquentation",
+      category: "Économie",
+      image:
+        "https://images.pexels.com/photos/1005638/pexels-photo-1005638.jpeg?auto=compress&cs=tinysrgb&w=300",
+      publishedAt: "2024-02-15",
+      href: "/articles/101"
     },
     {
       id: 201,
-      title: 'Championnat régional: nos équipes en finale',
-      category: 'Sport',
-      image: 'https://images.pexels.com/photos/114296/pexels-photo-114296.jpeg?auto=compress&cs=tinysrgb&w=300',
-      publishedAt: '2024-02-15',
-      href: '/articles/201'
+      title: "Championnat régional: nos équipes en finale",
+      category: "Sport",
+      image:
+        "https://images.pexels.com/photos/114296/pexels-photo-114296.jpeg?auto=compress&cs=tinysrgb&w=300",
+      publishedAt: "2024-02-15",
+      href: "/articles/201"
     },
     {
       id: 301,
-      title: 'Exposition: 50 ans d\'histoire locale',
-      category: 'Culture',
-      image: 'https://images.pexels.com/photos/1839919/pexels-photo-1839919.jpeg?auto=compress&cs=tinysrgb&w=300',
-      publishedAt: '2024-02-14',
-      href: '/articles/301'
+      title: "Exposition: 50 ans d'histoire locale",
+      category: "Culture",
+      image:
+        "https://images.pexels.com/photos/1839919/pexels-photo-1839919.jpeg?auto=compress&cs=tinysrgb&w=300",
+      publishedAt: "2024-02-14",
+      href: "/articles/301"
     },
     {
       id: 401,
-      title: 'Solidarité: collecte alimentaire exceptionnelle',
-      category: 'Société',
-      image: 'https://images.pexels.com/photos/6646918/pexels-photo-6646918.jpeg?auto=compress&cs=tinysrgb&w=300',
-      publishedAt: '2024-02-15',
-      href: '/articles/401'
+      title: "Solidarité: collecte alimentaire exceptionnelle",
+      category: "Société",
+      image:
+        "https://images.pexels.com/photos/6646918/pexels-photo-6646918.jpeg?auto=compress&cs=tinysrgb&w=300",
+      publishedAt: "2024-02-15",
+      href: "/articles/401"
     },
     {
       id: 102,
-      title: 'Nouvelle zone artisanale en projet',
-      category: 'Économie',
-      image: 'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=300',
-      publishedAt: '2024-02-14',
-      href: '/articles/102'
+      title: "Nouvelle zone artisanale en projet",
+      category: "Économie",
+      image:
+        "https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=300",
+      publishedAt: "2024-02-14",
+      href: "/articles/102"
     },
     {
       id: 202,
-      title: 'Nouveaux cours de fitness pour seniors',
-      category: 'Sport',
-      image: 'https://images.pexels.com/photos/853247/pexels-photo-853247.jpeg?auto=compress&cs=tinysrgb&w=300',
-      publishedAt: '2024-02-13',
-      href: '/articles/202'
+      title: "Nouveaux cours de fitness pour seniors",
+      category: "Sport",
+      image:
+        "https://images.pexels.com/photos/853247/pexels-photo-853247.jpeg?auto=compress&cs=tinysrgb&w=300",
+      publishedAt: "2024-02-13",
+      href: "/articles/202"
     }
   ];
 
   useEffect(() => {
-    const dates: {[key: string]: string} = {};
-    
+    const dates: { [key: string]: string } = {};
+
     // Format dates for events
-    upcomingEvents.forEach(event => {
-      dates[event.date] = new Date(event.date).toLocaleDateString('fr-FR');
+    upcomingEvents.forEach((event) => {
+      dates[event.date] = new Date(event.date).toLocaleDateString("fr-FR");
     });
-    
+
     // Format dates for category news
-    categoryNews.forEach(article => {
-      dates[article.publishedAt] = new Date(article.publishedAt).toLocaleDateString('fr-FR');
+    categoryNews.forEach((article) => {
+      dates[article.publishedAt] = new Date(
+        article.publishedAt
+      ).toLocaleDateString("fr-FR");
     });
-    
+
     setFormattedDates(dates);
   }, []);
 
-  const totalVotes = poll.options.reduce((sum, option) => sum + option.votes, 0);
+  const totalVotes = poll.options.reduce(
+    (sum, option) => sum + option.votes,
+    0
+  );
 
   const getCategoryColor = (category: string) => {
     const colors = {
-      'Économie': 'bg-green-100 text-green-800',
-      'Sport': 'bg-blue-100 text-blue-800',
-      'Culture': 'bg-purple-100 text-purple-800',
-      'Société': 'bg-red-100 text-red-800'
+      Économie: "bg-green-100 text-green-800",
+      Sport: "bg-blue-100 text-blue-800",
+      Culture: "bg-purple-100 text-purple-800",
+      Société: "bg-red-100 text-red-800"
     };
-    return colors[category as keyof typeof colors] || 'bg-gray-100 text-gray-800';
+    return (
+      colors[category as keyof typeof colors] || "bg-gray-100 text-gray-800"
+    );
   };
 
   return (
@@ -168,17 +190,23 @@ const Sidebar = () => {
                   />
                 </div>
                 <div className="flex-grow">
-                  <Badge className={getCategoryColor(article.category)} variant="outline">
+                  <Badge
+                    className={getCategoryColor(article.category)}
+                    variant="outline"
+                  >
                     {article.category}
                   </Badge>
                   <h4 className="font-medium text-gray-900 text-sm leading-tight mt-1 mb-1">
-                    <Link href={article.href} className="hover:text-primary transition-colors">
+                    <Link
+                      href={article.href}
+                      className="hover:text-primary transition-colors"
+                    >
                       {article.title}
                     </Link>
                   </h4>
                   <div className="flex items-center text-xs text-gray-500">
                     <Clock className="w-3 h-3 mr-1" />
-                    <span>{formattedDates[article.publishedAt] || ''}</span>
+                    <span>{formattedDates[article.publishedAt] || ""}</span>
                   </div>
                 </div>
               </div>
@@ -198,13 +226,20 @@ const Sidebar = () => {
         <CardContent>
           <div className="space-y-3">
             {upcomingEvents.map((event) => (
-              <div key={event.id} className="border-l-4 border-secondary pl-3 py-2 hover:bg-gray-50 transition-colors">
+              <div
+                key={event.id}
+                className="border-l-4 border-secondary pl-3 py-2 hover:bg-gray-50 transition-colors"
+              >
                 <div className="flex items-start justify-between">
                   <div className="flex-grow">
-                    <h4 className="font-medium text-gray-900 text-sm">{event.title}</h4>
+                    <h4 className="font-medium text-gray-900 text-sm">
+                      {event.title}
+                    </h4>
                     <div className="flex items-center text-xs text-gray-500 mt-1">
                       <Clock className="w-3 h-3 mr-1" />
-                      <span>{formattedDates[event.date] || ''} - {event.time}</span>
+                      <span>
+                        {formattedDates[event.date] || ""} - {event.time}
+                      </span>
                     </div>
                     <div className="flex items-center text-xs text-gray-500 mt-1">
                       <MapPin className="w-3 h-3 mr-1" />
@@ -219,9 +254,7 @@ const Sidebar = () => {
             ))}
           </div>
           <Button variant="outline" size="sm" className="w-full mt-4" asChild>
-            <Link href="/evenements">
-              Voir tous les événements
-            </Link>
+            <Link href="/evenements">Voir tous les événements</Link>
           </Button>
         </CardContent>
       </Card>
@@ -248,7 +281,10 @@ const Sidebar = () => {
                       onChange={(e) => setSelectedPoll(e.target.value)}
                       className="text-primary"
                     />
-                    <label htmlFor={option.id} className="text-sm text-gray-700 flex-grow cursor-pointer">
+                    <label
+                      htmlFor={option.id}
+                      className="text-sm text-gray-700 flex-grow cursor-pointer"
+                    >
                       {option.label}
                     </label>
                     <span className="text-xs text-gray-500">{percentage}%</span>
@@ -282,7 +318,9 @@ const Sidebar = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            <h4 className="font-medium text-gray-900">{emergencyPharmacy.name}</h4>
+            <h4 className="font-medium text-gray-900">
+              {emergencyPharmacy.name}
+            </h4>
             <div className="flex items-center text-sm text-gray-600">
               <MapPin className="w-4 h-4 mr-2" />
               <span>{emergencyPharmacy.address}</span>
@@ -326,7 +364,7 @@ const Sidebar = () => {
         </CardContent>
       </Card>
 
-      <LiveChat />
+      {/*       <LiveChat /> */}
     </div>
   );
 };
